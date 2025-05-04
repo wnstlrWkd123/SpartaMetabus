@@ -5,23 +5,27 @@ public class GameManager : MonoBehaviour
     static GameManager gameManager;
     public static GameManager Instance { get { return gameManager; } }
 
-    private int currentScore = 0;
+    [SerializeField] private UIManager _UIManager;
 
-    UiManager uiManager;
+    private int currentScore = 0;
+    private int highScore = 0;
 
     private void Awake()
     {
         gameManager = this;
-        uiManager = FindObjectOfType<UiManager>();
     }
 
     private void Start()
     {
-        uiManager.UpdateScore(0);
+        _UIManager.UpdateScore(currentScore);
+
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        _UIManager.UpdateHighScore(highScore);
     }
+
     public void GameOver()
     {
-        uiManager.SetRestart();
+        _UIManager.SetRestart();
     }
 
     public void RestartGame()
@@ -33,6 +37,14 @@ public class GameManager : MonoBehaviour
     public void AddScore(int score)
     {
         currentScore += score;
-        uiManager.UpdateScore(currentScore);
+        _UIManager.UpdateScore(currentScore);
+
+        if (currentScore > highScore)
+        {
+            highScore = currentScore;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            PlayerPrefs.Save();
+            _UIManager.UpdateHighScore(highScore);
+        }
     }
 }

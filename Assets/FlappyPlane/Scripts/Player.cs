@@ -55,13 +55,22 @@ public class Player : MonoBehaviour
         }
         else
         {
+            // 강한 점프
             if (Input.GetMouseButtonDown(0))
             {
                 isFlap = true;
             }
-            else if (Input.GetMouseButtonDown(1))
+            
+            // 약한 점프
+            if (Input.GetMouseButtonDown(1))
             {
                 isFlap2 = true;
+            }
+
+            // 나가기
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                MiniGameManager.instance.UnloadMiniGame();
             }
         }
     }

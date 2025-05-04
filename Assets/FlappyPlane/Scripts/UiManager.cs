@@ -1,9 +1,10 @@
 using TMPro;
 using UnityEngine;
 
-public class UiManager : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI restartText;
 
     void Start()
@@ -13,6 +14,9 @@ public class UiManager : MonoBehaviour
 
         if (scoreText == null)
             Debug.LogError("score text is null");
+
+        if (highScoreText == null)
+            Debug.LogError("highScore text is null");
 
         restartText.gameObject.SetActive(false);
     }
@@ -25,5 +29,16 @@ public class UiManager : MonoBehaviour
     public void UpdateScore(int score)
     {
         scoreText.text = score.ToString();
+    }
+
+    public void UpdateHighScore(int score)
+    {
+        highScoreText.text = score.ToString();
+    }
+
+    public void ResetHighScore()
+    {
+        PlayerPrefs.DeleteKey("HighScore");
+        PlayerPrefs.Save();
     }
 }
