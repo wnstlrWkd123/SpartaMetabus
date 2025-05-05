@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MiniGameManager : MonoBehaviour
@@ -6,6 +7,7 @@ public class MiniGameManager : MonoBehaviour
     public static MiniGameManager instance;
     [SerializeField] private GameObject miniGameGuideUI;
     [SerializeField] private GameObject MainRoot;
+    [SerializeField] private Text highScoreText;
 
     private void Awake()
     {
@@ -17,9 +19,15 @@ public class MiniGameManager : MonoBehaviour
         }
     }
 
+    private void GetHighScore()
+    {
+        highScoreText.text = "최고 점수 : " + PlayerPrefs.GetInt("HighScore").ToString();
+    }
+
     public void ShowMiniGameGuide()
     {
         miniGameGuideUI.SetActive(true);
+        GetHighScore();
     }
 
     public void CancelMiniGameGuide()
@@ -37,5 +45,6 @@ public class MiniGameManager : MonoBehaviour
     {
         SceneManager.UnloadSceneAsync("FlappyPlane");
         MainRoot.SetActive(true);
+        GetHighScore();
     }
 }
